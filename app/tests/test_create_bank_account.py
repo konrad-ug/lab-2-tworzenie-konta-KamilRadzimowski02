@@ -6,11 +6,18 @@ class TestCreateBankAccount(unittest.TestCase):
     mock_name = "Dariusz"
     mock_surname = "Januszewski"
     mock_pesel = "12345678910"
+    mock_discount_code = "PROM_XYZ"
     starting_balance = 0
+    starting_balance_with_code = 50
 
     mock_too_short_pesel = "123"
+    mock_invalid_discount_code_no_suffix = "PROM"
+    mock_invalid_discount_code_no_prefix = "XYZ"
+    mock_invalid_discount_code_wrong_prefix = "STH_XYZ"
+    mock_invalid_discount_code_wrong_suffix = "PROM_AAAA"
+    mock_invalid_discount_code_string_in_the_middle = "STHPROM_XYZSTH"
 
-    def test_tworzenie_konta(self):
+    def test_tworzenie_konta_bez_rabatu(self):
         pierwsze_konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel)
         self.assertEqual(pierwsze_konto.imie, self.mock_name, "Imie nie zostało zapisane!")
         self.assertEqual(pierwsze_konto.nazwisko, self.mock_surname, "Nazwisko nie zostało zapisane!")
@@ -20,3 +27,28 @@ class TestCreateBankAccount(unittest.TestCase):
     def test_tworzenie_konta_nieprawidlowy_pesel(self):
         konto = Konto(self.mock_name, self.mock_surname, self.mock_too_short_pesel)
         self.assertEqual(konto.pesel, konto.WRONG_PESEL, "Brak informacji o zlym peselu")
+
+    def test_tworzenie_konta_z_kodem_rabatowym(self):
+        konto_z_kodem = Konto(self.mock_name, self.mock_surname, self.mock_pesel, self.mock_discount_code)
+        self.assertEqual(konto_z_kodem.saldo, self.starting_balance_with_code, "Saldo nie uleglo zmianie po dodaniu kodu")
+
+    def test_tworzenie_konta_z_nieprawidlowym_kodem_no_suffix(self):
+        konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel, self.mock_invalid_discount_code_no_suffix)
+        self.assertEqual(konto.saldo, self.starting_balance, "Saldo uleglo zmianie mimo zlego kodu: brak suffixu")
+
+    def test_tworzenie_konta_z_nieprawidlowym_kodem_no_prefix(self):
+        konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel, self.mock_invalid_discount_code_no_prefix)
+        self.assertEqual(konto.saldo, self.starting_balance, "Saldo uleglo zmianie mimo zlego kodu: brak prefixu")
+
+    def test_tworzenie_konta_z_nieprawidlowym_kodem_wrong_suffix(self):
+        konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel, self.mock_invalid_discount_code_wrong_suffix)
+        self.assertEqual(konto.saldo, self.starting_balance, "Saldo uleglo zmianie mimo zlego kodu: zly suffix")
+
+    def test_tworzenie_konta_z_nieprawidlowym_kodem_wrong_prefix(self):
+        konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel, self.mock_invalid_discount_code_wrong_prefix)
+        self.assertEqual(konto.saldo, self.starting_balance, "Saldo uleglo zmianie mimo zlego kodu: zly prefix")
+
+    def test_tworzenie_konta_z_nieprawidlowym_kodem_string_in_the_middle(self):
+        konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel,
+                        self.mock_invalid_discount_code_string_in_the_middle)
+        self.assertEqual(konto.saldo, self.starting_balance, "Saldo uleglo zmianie mimo zlego kodu: dobry string wew. innego")
