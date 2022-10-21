@@ -2,15 +2,22 @@ import unittest
 
 from ..Konto import Konto
 
+
 class TestCreateBankAccount(unittest.TestCase):
     mock_name = "Dariusz"
     mock_surname = "Januszewski"
     mock_pesel = "12345678910"
+    mock_pesel_2002 = "02272101034"
+    mock_pesel_1980 = ""
+    mock_pesel_1959 = ""
+    mock_pesel_1898 = ""
     mock_discount_code = "PROM_XYZ"
     starting_balance = 0
     starting_balance_with_code = 50
 
     mock_too_short_pesel = "123"
+    mock_pesel_too_old_for_promo_code = "55864356781"
+
     mock_invalid_discount_code_no_suffix = "PROM"
     mock_invalid_discount_code_no_prefix = "XYZ"
     mock_invalid_discount_code_wrong_prefix = "STH_XYZ"
@@ -30,7 +37,8 @@ class TestCreateBankAccount(unittest.TestCase):
 
     def test_tworzenie_konta_z_kodem_rabatowym(self):
         konto_z_kodem = Konto(self.mock_name, self.mock_surname, self.mock_pesel, self.mock_discount_code)
-        self.assertEqual(konto_z_kodem.saldo, self.starting_balance_with_code, "Saldo nie uleglo zmianie po dodaniu kodu")
+        self.assertEqual(konto_z_kodem.saldo, self.starting_balance_with_code,
+                         "Saldo nie uleglo zmianie po dodaniu kodu")
 
     def test_tworzenie_konta_z_nieprawidlowym_kodem_no_suffix(self):
         konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel, self.mock_invalid_discount_code_no_suffix)
@@ -50,5 +58,17 @@ class TestCreateBankAccount(unittest.TestCase):
 
     def test_tworzenie_konta_z_nieprawidlowym_kodem_string_in_the_middle(self):
         konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel,
-                        self.mock_invalid_discount_code_string_in_the_middle)
-        self.assertEqual(konto.saldo, self.starting_balance, "Saldo uleglo zmianie mimo zlego kodu: dobry string wew. innego")
+                      self.mock_invalid_discount_code_string_in_the_middle)
+        self.assertEqual(konto.saldo, self.starting_balance,
+                         "Saldo uleglo zmianie mimo zlego kodu: dobry string wew. innego")
+
+    def test_tworzenie_konta_z_kodem_zbyt_stara_data(self):
+        konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel_too_old_for_promo_code, self.mock_discount_code)
+        self.assertEqual(konto.saldo, self.starting_balance, "Saldo uległo zmianie mimo zbyt duzego wieku")
+
+    def test_tworzenie_konta_z_kodem_osoba_urodzona_po_2000(self):
+        konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel_2002, self.mock_discount_code)
+        self.assertEqual(konto.saldo, self.starting_balance_with_code, f"Saldo nie uległo zmianie mimo dobrego kodu, Konto: ${konto}")
+
+    def test_tworzenie_konta_z_kodem_osoba_urodzona_przed_1899(self):
+        konto = Konto(self.mock_name, self.mock_surname, self.)

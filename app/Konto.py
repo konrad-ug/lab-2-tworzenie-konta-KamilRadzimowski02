@@ -5,6 +5,7 @@ class Konto:
 
     code_pattern = re.compile("^PROM_[A-Z][A-Z][A-Z]$")
     code_bonus = 50
+    code_birth_year = 1960
 
     imie = ""
     nazwisko = ""
@@ -25,7 +26,8 @@ class Konto:
         # Validate discount code
 
         if code is not None:
-            if self.code_pattern.match(code):
+            year = self.pesel[:2]
+            if self.code_pattern.match(code) && :
                 self.saldo = self.code_bonus
 
 
