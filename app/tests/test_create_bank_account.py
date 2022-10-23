@@ -8,9 +8,9 @@ class TestCreateBankAccount(unittest.TestCase):
     mock_surname = "Januszewski"
     mock_pesel = "12345678910"
     mock_pesel_2002 = "02272101034"
-    mock_pesel_1980 = ""
-    mock_pesel_1959 = ""
-    mock_pesel_1898 = ""
+    mock_pesel_1980 = "80122101034"
+    mock_pesel_1959 = "59122101034"
+    mock_pesel_1898 = "98842101034"
     mock_discount_code = "PROM_XYZ"
     starting_balance = 0
     starting_balance_with_code = 50
@@ -68,7 +68,14 @@ class TestCreateBankAccount(unittest.TestCase):
 
     def test_tworzenie_konta_z_kodem_osoba_urodzona_po_2000(self):
         konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel_2002, self.mock_discount_code)
-        self.assertEqual(konto.saldo, self.starting_balance_with_code, f"Saldo nie uległo zmianie mimo dobrego kodu, Konto: ${konto}")
+        self.assertEqual(konto.saldo, self.starting_balance_with_code, f"Saldo nie uległo zmianie mimo dobrego kodu, "
+                                                                       f"Konto: ${konto}")
 
     def test_tworzenie_konta_z_kodem_osoba_urodzona_przed_1899(self):
-        konto = Konto(self.mock_name, self.mock_surname, self.)
+        konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel_1898, self.mock_discount_code)
+        self.assertEqual(konto.saldo, self.starting_balance, "Saldo uległo zmianie mimo zbyt dużego wieku")
+
+    def test_tworzenie_konta_z_kodem_osoba_urodzona_w_1980(self):
+        konto = Konto(self.mock_name, self.mock_surname, self.mock_pesel_1980, self.mock_discount_code)
+        self.assertEqual(konto.saldo, self.starting_balance_with_code, f"Saldo nie uległo zmianie mimo dobrego kodu, "
+                                                                       f"Konto: ${konto}")

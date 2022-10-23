@@ -1,5 +1,20 @@
 import re
 
+def getYearOfBirthBasedOnPesel(pesel):
+    year = pesel[:2]
+    century_encoded = pesel[2:4]
+    # This person was born before 1900
+    if int(century_encoded) > 80:
+        return f"18{year}"
+    elif int(century_encoded) > 20:
+        return f"20{year}"
+    else:
+        return f"19{year}"
+
+def validatePesel(pesel):
+    return len(pesel) == 11
+
+
 class Konto:
     WRONG_PESEL = "NIEPRAWIDLOWY_PESEL"
 
@@ -17,8 +32,7 @@ class Konto:
         self.imie = name
         self.nazwisko = surname
 
-        # Validate PESEL
-        if len(pesel) == 11:
+        if validatePesel(pesel):
             self.pesel = pesel
         else:
             self.pesel = self.WRONG_PESEL
@@ -26,8 +40,9 @@ class Konto:
         # Validate discount code
 
         if code is not None:
-            year = self.pesel[:2]
-            if self.code_pattern.match(code) && :
+            year = getYearOfBirthBasedOnPesel(pesel)
+            print(year)
+            if self.code_pattern.match(code) and int(year) > 1960:
                 self.saldo = self.code_bonus
 
 
