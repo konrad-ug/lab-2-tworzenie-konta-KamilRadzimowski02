@@ -41,7 +41,6 @@ class Konto:
 
         if code is not None:
             year = getYearOfBirthBasedOnPesel(pesel)
-            print(year)
             if self.code_pattern.match(code) and int(year) > 1960:
                 self.saldo = self.code_bonus
 
