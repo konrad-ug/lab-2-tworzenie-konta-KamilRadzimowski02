@@ -1,5 +1,6 @@
 class Konto:
     balance = 0
+    history = []
     isCompanyAccount = False
     isPrivateAccount = False
 
@@ -7,14 +8,18 @@ class Konto:
     personalAccountPrice = 1
 
     def __init__(self):
+        self.history = []
+        self.balance = 0
         pass
 
     def receiveTransfer(self, amount):
         self.balance += amount
+        self.history.append(amount)
 
     def sendTransfer(self, receiver, amount):
         if self.balance >= amount:
             self.balance = self.balance - amount
+            self.history.append(amount * -1)
             return True
         else:
             return False
@@ -27,6 +32,7 @@ class Konto:
 
         if self.balance >= amount:
             self.balance = self.balance - amount - price
+            self.history.append(amount * -1)
             return True
         else:
             return False
