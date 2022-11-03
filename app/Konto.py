@@ -1,47 +1,32 @@
-import re
-
-def getYearOfBirthBasedOnPesel(pesel):
-    year = pesel[:2]
-    century_encoded = pesel[2:4]
-    # This person was born before 1900
-    if int(century_encoded) > 80:
-        return f"18{year}"
-    elif int(century_encoded) > 20:
-        return f"20{year}"
-    else:
-        return f"19{year}"
-
-def validatePesel(pesel):
-    return len(pesel) == 11
-
-
 class Konto:
-    WRONG_PESEL = "NIEPRAWIDLOWY_PESEL"
+    balance = 0
+    isCompanyAccount = False
+    isPrivateAccount = False
 
-    code_pattern = re.compile("^PROM_[A-Z][A-Z][A-Z]$")
-    code_bonus = 50
-    code_birth_year = 1960
+    companyAccountPrice = 5
+    personalAccountPrice = 1
 
-    imie = ""
-    nazwisko = ""
-    saldo = 0
-    pesel = ""
+    def __init__(self):
+        pass
 
+    def receiveTransfer(self, amount):
+        self.balance += amount
 
-    def __init__(self, name, surname, pesel, code = None):
-        self.imie = name
-        self.nazwisko = surname
-
-        if validatePesel(pesel):
-            self.pesel = pesel
+    def sendTransfer(self, receiver, amount):
+        if self.balance >= amount:
+            self.balance = self.balance - amount
+            return True
         else:
-            self.pesel = self.WRONG_PESEL
+            return False
 
-        # Validate discount code
+    def sendQuickTransfer(self, receiver, amount):
+        if self.isPrivateAccount:
+            price = self.personalAccountPrice
+        else:
+            price = self.companyAccountPrice
 
-        if code is not None:
-            year = getYearOfBirthBasedOnPesel(pesel)
-            if self.code_pattern.match(code) and int(year) > 1960:
-                self.saldo = self.code_bonus
-
-
+        if self.balance >= amount:
+            self.balance = self.balance - amount - price
+            return True
+        else:
+            return False
