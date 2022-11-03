@@ -37,4 +37,6 @@ jobs:
     - name: Test with pytest
       run: |
         python -m coverage run -m unittest
+    - name: Coverage
+      run: |
         python -m coverage report --fail-under=100
