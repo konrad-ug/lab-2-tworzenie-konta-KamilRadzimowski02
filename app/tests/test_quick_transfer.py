@@ -3,6 +3,7 @@ import unittest
 from ..KontoPrywatne import KontoPrywatne
 from ..KontoFirmowe import KontoFirmowe
 
+
 class QuickExpressTest(unittest.TestCase):
     mock_name = "Dariusz"
     mock_surname = "Januszewski"
@@ -19,7 +20,7 @@ class QuickExpressTest(unittest.TestCase):
         self.assertEqual(konto.balance, -1)
 
     def test_quick_transfer_company_account(self):
-        konto = KontoFirmowe(self.mock_co_name,self.mock_nip)
+        konto = KontoFirmowe(self.mock_co_name, self.mock_nip)
         konto.balance = 500
 
         konto.sendQuickTransfer(None, 500)
