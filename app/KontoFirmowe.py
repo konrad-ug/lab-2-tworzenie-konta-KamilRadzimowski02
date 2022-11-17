@@ -17,6 +17,19 @@ class KontoFirmowe(Konto):
         else:
             self.nip = self.WRONG_NIP
 
+    def contains_zus_transaction(self):
+        result = False
+        for entry in self.history:
+            if entry == -1775:
+                result = True
+        return result
+
+    def borrow(self, amount):
+        if self.balance >= (amount * 2) and self.contains_zus_transaction():
+            self.balance += amount
+            return True
+        else:
+            return False
 
 def verifyNip(nip):
     return len(nip) == 10
