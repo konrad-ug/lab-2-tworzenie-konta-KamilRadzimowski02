@@ -3,6 +3,7 @@ import unittest
 from parameterized import parameterized
 
 from ..KontoPrywatne import KontoPrywatne
+from ..KontoFirmowe import KontoFirmowe
 
 
 class TakeLoanTest(unittest.TestCase):
@@ -12,6 +13,7 @@ class TakeLoanTest(unittest.TestCase):
 
     def setUp(self):
         self.konto = KontoPrywatne(self.mock_name, self.mock_surname,  self.mock_nip)
+        self.kontoFirmowe = KontoFirmowe(self.mock_name, self.mock_nip)
 
     @parameterized.expand([
         ([300, 300, 300], 500, True, 500),
@@ -28,5 +30,20 @@ class TakeLoanTest(unittest.TestCase):
 
         self.assertEqual(was_money_lend, expected_result)
         self.assertEqual(self.konto.balance, expected_balance)
+
+    @parameterized.expand([
+        ([300, 300, -1775], 1000, 500, True, 1500),
+        ([300, 300, -1775], 900, 500, False, 900),
+        ([300, 300], 900, 500, False, 900),
+        ([300, 300, 900], 1000, 500, False, 1000),
+    ])
+    def test_borrow_company_account(self, history, balance, loan_amount, expected_result, expected_balance):
+        self.kontoFirmowe.history = history
+        self.kontoFirmowe.balance = balance
+
+        was_money_lend = self.kontoFirmowe.borrow(loan_amount)
+
+        self.assertEqual(was_money_lend, expected_result)
+        self.assertEqual(self.kontoFirmowe.balance, expected_balance)
 
 
