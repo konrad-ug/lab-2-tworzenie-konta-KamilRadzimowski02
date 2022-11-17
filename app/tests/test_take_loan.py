@@ -55,7 +55,7 @@ class TakeLoanTest(unittest.TestCase):
         was_money_lend = self.konto.borrow(2500)
 
         self.assertEqual(was_money_lend, False)
-        self.assertEqual(self.konto.balance, 500)
+        self.assertEqual(self.konto.balance, 0)
 
 
 
