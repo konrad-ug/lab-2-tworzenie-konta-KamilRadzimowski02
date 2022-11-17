@@ -36,3 +36,28 @@ class Konto:
             return True
         else:
             return False
+
+    def borrow(self, amount):
+        if self.are_3_last_history_items_bigger_than_zero() or self.is_sum_of_last_5_transactions_bigger_than_loan(amount):
+            self.balance += amount
+            return True
+        else:
+            return False
+
+    def is_sum_of_last_5_transactions_bigger_than_loan(self, amount):
+        if len(self.history) >= 5:
+            sum_of_5 = 0
+            for item in self.history[-5:]:
+                sum_of_5 += item
+            return sum_of_5 > amount
+        else:
+            return False
+
+    def are_3_last_history_items_bigger_than_zero(self):
+        if len(self.history) >= 3:
+            for item in self.history[-3:]:
+                if item < 0:
+                    return False
+            return True
+        else:
+            return False
