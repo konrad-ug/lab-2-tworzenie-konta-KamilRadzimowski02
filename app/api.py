@@ -23,6 +23,5 @@ def ile_kont():
 @app.route("/konta/konto/<pesel>", methods=['GET'])
 def wyszukaj_konto_z_peselem(pesel):
     # Twoja implementacja endpointu
-    dane = request.get_json()
-    konto = RejestrKont.find(dane["pesel"])
-    return jsonify(imie=konto.imie, nazwisko=konto.surname, pesel=konto.pesel), 200
+    konto = RejestrKont.find(pesel)
+    return jsonify(imie=konto.imie, nazwisko=konto.nazwisko, pesel=konto.pesel), 200

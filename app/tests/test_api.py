@@ -12,6 +12,7 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(r.status_code, 201)
 
     def test_get_created_account(self):
-        r = requests.get(f"http://127.0.0.1:5000/konta/konto/{self.mock_pesel}")
-        print(r.text)
-        pass
+        r = requests.get(f"http://127.0.0.1:5000/konta/konto/{self.mock_pesel}", json={})
+        print(r.json())
+        self.assertEqual(r.json()['imie'], self.mock_name)
+        self.assertEqual(r.json()['nazwisko'], self.mock_surname)
