@@ -2,6 +2,7 @@ import re
 
 from .Konto import Konto
 
+
 def getYearOfBirthBasedOnPesel(pesel):
     year = pesel[:2]
     century_encoded = pesel[2:4]
@@ -12,7 +13,6 @@ def getYearOfBirthBasedOnPesel(pesel):
         return f"20{year}"
     else:
         return f"19{year}"
-
 
 
 def validatePesel(pesel):
@@ -30,8 +30,7 @@ class KontoPrywatne(Konto):
     nazwisko = ""
     pesel = ""
 
-
-    def __init__(self, name, surname, pesel, code = None):
+    def __init__(self, name, surname, pesel, code=None):
         super().__init__()
 
         self.isPrivateAccount = True
@@ -51,7 +50,8 @@ class KontoPrywatne(Konto):
                 self.balance = self.code_bonus
 
     def borrow(self, amount):
-        if self.are_3_last_history_items_bigger_than_zero() or self.is_sum_of_last_5_transactions_bigger_than_loan(amount):
+        if self.are_3_last_history_items_bigger_than_zero() or self.is_sum_of_last_5_transactions_bigger_than_loan(
+                amount):
             self.balance += amount
             return True
         else:
