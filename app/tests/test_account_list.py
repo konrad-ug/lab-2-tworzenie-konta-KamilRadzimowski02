@@ -32,6 +32,11 @@ class AccountListTest(unittest.TestCase):
         result = self.rejestr.add(self.konto)
         self.assertEqual(result, False)
 
+    def test_account_delete(self):
+        self.rejestr.add(self.konto)
+        self.rejestr.delete(self.pesel)
+        self.assertEqual(self.rejestr.list, [])
+
     @classmethod
     def tearDownClass(cls):
         RejestrKont.list = []
