@@ -29,8 +29,7 @@ class ApiTest(unittest.TestCase):
 
     def test_delete_account(self):
         r = requests.get(f"http://127.0.0.1:5000/konta/konto/delete/{self.mock_pesel}", json={})
-        RejestrKont.delete(self.mock_pesel)
-        self.assertEqual(RejestrKont.count(), 0)
+        self.assertEqual(r.status_code, 200)
 
 
     @classmethod
