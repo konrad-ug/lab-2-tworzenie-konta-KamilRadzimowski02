@@ -1,6 +1,6 @@
 import unittest
 import requests
-from .RejestrKont import RejestrKont
+from app.RejestrKont import RejestrKont
 
 
 class ApiTest(unittest.TestCase):
