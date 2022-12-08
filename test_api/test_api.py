@@ -31,7 +31,6 @@ class ApiTest(unittest.TestCase):
         r = requests.get(f"http://127.0.0.1:5000/konta/konto/delete/{self.mock_pesel}", json={})
         self.assertEqual(r.status_code, 200)
 
-
     @classmethod
     def tearDown(cls):
         RejestrKont.list = []
