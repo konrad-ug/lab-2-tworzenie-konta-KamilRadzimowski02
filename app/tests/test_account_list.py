@@ -27,3 +27,7 @@ class AccountListTest(unittest.TestCase):
 
     def test_find_not_found(self):
         self.assertEqual(self.rejestr.find(self.not_used_pesel), None)
+
+    @classmethod
+    def tearDownClass(cls):
+        RejestrKont.list = []
