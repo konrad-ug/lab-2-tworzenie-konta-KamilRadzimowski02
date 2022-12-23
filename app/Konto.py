@@ -1,8 +1,14 @@
+from datetime import datetime
+
+
 class Konto:
     balance = 0
     history = []
     isCompanyAccount = False
     isPrivateAccount = False
+
+    mail_title_string = "Wyciąg z dnia:"
+    mail_content_string = ""
 
     companyAccountPrice = 5
     personalAccountPrice = 1
@@ -36,4 +42,10 @@ class Konto:
             return True
         else:
             return False
+
+    def wyslij_historie_na_maila(self, adresat, connection):
+        date = datetime.today().strftime('%Y-%m-%d')
+        temat = f"{self.mail_title_string} {date}"
+        tresc = f"{self.mail_content_string} {self.history}"
+        return connection.wyslij(temat, tresc, adresat)
 

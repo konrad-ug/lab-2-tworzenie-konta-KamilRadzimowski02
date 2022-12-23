@@ -26,6 +26,8 @@ class KontoPrywatne(Konto):
     code_bonus = 50
     code_birth_year = 1960
 
+    private_mail_content_string = "Twoja historia konta to:"
+
     imie = ""
     nazwisko = ""
     pesel = ""
@@ -33,6 +35,7 @@ class KontoPrywatne(Konto):
     def __init__(self, name, surname, pesel, code=None):
         super().__init__()
 
+        self.mail_content_string = self.private_mail_content_string
         self.isPrivateAccount = True
         self.imie = name
         self.nazwisko = surname

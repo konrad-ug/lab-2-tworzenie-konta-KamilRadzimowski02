@@ -12,10 +12,13 @@ class KontoFirmowe(Konto):
     nip = ""
     company_name = ""
 
+    company_mail_content_string = "Historia konta twojej firmy to:"
+
     def __init__(self, company_name, nip):
         super().__init__()
 
         self.isCompanyAccount = True
+        self.mail_content_string = self.company_mail_content_string
         self.company_name = company_name
 
         if verifyNip(nip):
