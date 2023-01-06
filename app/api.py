@@ -27,16 +27,25 @@ def ile_kont():
 def wyszukaj_konto_z_peselem(pesel):
     # Twoja implementacja endpointu
     konto = RejestrKont.find(pesel)
-    return jsonify(imie=konto.imie, nazwisko=konto.nazwisko, pesel=konto.pesel), 200
+    if konto is None:
+        return jsonify(imie=None, nazwisko=None, pesel=None), 200
+    else:
+        return jsonify(imie=konto.imie, nazwisko=konto.nazwisko, pesel=konto.pesel), 200
 
 
-@app.route("/konta/update/<pesel>", methods=['POST'])
-def update_konto(pesel):
-    # endpoint
-    return jsonify()
+@app.route("/konta/update/<pesel>/<nazwisko>", methods=['POST'])
+def update_konto(pesel, nazwisko):
+    RejestrKont.update(nazwisko, pesel)
+    return jsonify("ok"), 200
 
 
 @app.route("/konta/konto/delete/<pesel>", methods=['DELETE'])
 def delete_konto(pesel):
     RejestrKont.delete(pesel)
     return jsonify("deleted"), 200
+
+
+@app.route("/konta/clear", methods=['DELETE'])
+def clear():
+    RejestrKont.list = []
+    return jsonify("cleared"), 200

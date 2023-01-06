@@ -35,3 +35,12 @@ class RejestrKont:
             if konto.pesel != pesel:
                 result.append(konto)
         cls.list = result
+
+    @classmethod
+    def update(cls, nazwisko, pesel):
+        result = []
+        for konto in cls.list:
+            if konto.pesel == pesel:
+                konto.nazwisko = nazwisko
+            result.append(konto)
+        cls.list = result
