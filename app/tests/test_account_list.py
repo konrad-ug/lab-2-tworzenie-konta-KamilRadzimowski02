@@ -34,6 +34,11 @@ class AccountListTest(unittest.TestCase):
         result = self.rejestr.add(self.konto)
         self.assertEqual(result, False)
 
+    def test_update_account(self):
+        self.rejestr.update("update", self.pesel)
+        find = self.rejestr.find(self.pesel)
+        self.assertEqual(find.nazwisko, "update")
+
     def test_account_delete(self):
         self.rejestr.add(self.konto)
         self.rejestr.add(self.konto2)
